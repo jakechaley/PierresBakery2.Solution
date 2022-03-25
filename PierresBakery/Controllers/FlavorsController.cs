@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Security.Claims;
+
 namespace PierresBakery.Controllers
 {
   public class FlavorsController : Controller
@@ -21,6 +22,8 @@ namespace PierresBakery.Controllers
       _db = db;
     }
 
+    [Authorize]
+
     public ActionResult Index()
     {
       List<Flavor> model = _db.Flavors.ToList();
@@ -33,9 +36,12 @@ namespace PierresBakery.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(Flavor Flavor)
+    public async Task<ActionResult> Create(Flavor flavor)
     {
-      _db.Flavors.Add(Flavor);
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      flavor.User = currentUser;
+      _db.Flavors.Add(flavor);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
@@ -60,6 +66,24 @@ namespace PierresBakery.Controllers
     {
       _db.Entry(Flavor).State = EntityState.Modified;
       _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult AddTreat(int id)
+    {
+      var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
+      return View(thisFlavor);
+    }
+
+    [HttpPost]
+    public ActionResult AddTreat(Flavor flavor, int TreatId)
+    {
+      if (TreatId != 0)
+      {
+        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+        _db.SaveChanges();
+      }
       return RedirectToAction("Index");
     }
 
