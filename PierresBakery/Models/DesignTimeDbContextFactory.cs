@@ -16,7 +16,7 @@ namespace PierresBakery.Models
 
       var builder = new DbContextOptionsBuilder<PierresBakeryContext>();
 
-      builder.UseMySql(configuration["ConnectionsStrings:DefaultConnections"], ServerVersion.AutoDetect(configuration["ConnectionStrings:DefaultConnection"]));
+      builder.UseMySql(configuration["ConnectionStrings:DefaultConnection"], ServerVersion.AutoDetect(configuration["ConnectionStrings:DefaultConnection"]));
 
       return new PierresBakeryContext(builder.Options);
     }
