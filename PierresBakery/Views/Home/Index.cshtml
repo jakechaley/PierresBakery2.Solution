@@ -33,7 +33,7 @@
 
     @foreach (Treat treat in @Model.Treats.ToList())
     {
-      <li>@Html.ActionLink($"{treat.TreatName}", "Details", "Flavors", new { id = treat.TreatId })</li>
+      <li>@Html.ActionLink($"{treat.TreatName}", "Details", "Treats", new { id = treat.TreatId })</li>
     }
 
     <h5>@Html.ActionLink("Add new treat", "Create", "Treats")</h5>
