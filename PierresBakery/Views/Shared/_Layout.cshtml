@@ -11,7 +11,9 @@
       <H1>Welcome to Pierre's Bakery!</H1>
     </div>
       <div class="container">
+        @await Html.PartialAsync("Header")
         @RenderBody()
-      </div>
+        @await Html.PartialAsync("Footer")
+    </div>
   </body>
 </html>

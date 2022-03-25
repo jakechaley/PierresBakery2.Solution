@@ -19,8 +19,6 @@
     {
       <li>@Html.ActionLink($"{flavor.FlavorName}", "Details", "Flavors", new { id = flavor.FlavorId })</li>
     }
-
-    <h5>@Html.ActionLink("Add new flavor", "Create", "Flavors")</h5>
   </div>
 
   <div class="col-6">
@@ -35,7 +33,5 @@
     {
       <li>@Html.ActionLink($"{treat.TreatName}", "Details", "Treats", new { id = treat.TreatId })</li>
     }
-
-    <h5>@Html.ActionLink("Add new treat", "Create", "Treats")</h5>
   </div>
 </div>
